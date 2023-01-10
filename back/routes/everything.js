@@ -23,7 +23,6 @@ router.get('/:news', async(req, res) => {
             }
         })
     .then(function (response) {
-        console.log(req)
         res.json({
             data: response.data.articles
         })

@@ -8,10 +8,12 @@ function Homepage() {
 
     const [news, setNews] = useState()
     const [topic, setTopic] = useState()
+    const [language, setLanguage] = useState()
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const onSubmit = data => {
+        setLanguage(data.language)
         setTopic(data.topic)
     };
 
@@ -24,18 +26,22 @@ function Homepage() {
     }, []);
 
     useEffect(() => {
-        fetch(`http://localhost:8000/everything/news?q=${topic}&language=fr`)
+        fetch(`http://localhost:8000/everything/news?q=${topic}&language=${language}`)
         .then((res) => res.json())
         .then((res) => {
             setNews(res.data);
         });
-    }, [topic])
+    }, [topic, language])
 
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <input defaultValue="bitcoin" {...register("topic")} />
                     {errors.topic && <span>This field is required</span>}
+                <select {...register("language")}>
+                    <option value="fr">français</option>
+                    <option value="en">anglais</option>
+                </select>
                 <input type="submit" />
             </form>
             <div className="grid gap-4 grid-cols-4 grid-rows-3">
@@ -48,7 +54,8 @@ function Homepage() {
                             content={element.content} 
                             src={element.urlToImage} 
                             description={element.description} 
-                            date={element.publishedAt}/>
+                            date={element.publishedAt}
+                        />
                     )
                 })}
             </div>
