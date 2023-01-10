@@ -12,6 +12,7 @@ router.get('/:news', async(req, res) => {
     const requestParams = {}
     if (req.query.q) { requestParams.q = req.query.q }
     if (req.query.language) { requestParams.language = req.query.language }
+
     axios({
             method: 'get',
             url: 'https://newsapi.org/v2/everything',
@@ -22,6 +23,7 @@ router.get('/:news', async(req, res) => {
             }
         })
     .then(function (response) {
+        console.log(req)
         res.json({
             data: response.data.articles
         })
