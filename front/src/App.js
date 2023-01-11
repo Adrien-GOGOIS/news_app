@@ -6,6 +6,7 @@ import { React, useContext, createContext, useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // Views
+import NewsList from "./components/NewsList";
 import Homepage from "./components/Homepage";
 
 function App() {
@@ -14,9 +15,13 @@ function App() {
         <div className="flex flex-col justify-between min-h-screen">
           <div className="flex-grow">
             <Routes>
+              <Route 
+                path='/'
+                element={<Homepage/>}
+              />
               <Route
                 path="/home"
-                element={<Homepage />}
+                element={<NewsList />}
               />
             </Routes>
           </div>

@@ -24,8 +24,10 @@ app.get("/", (req, res) => {
 });
 
 const everything = require('./routes/everything.js');
+const top = require('./routes/top.js');
 
 app.use("/everything", everything);
+app.use("/top", top)
 
 // Routes inexistantes
 app.get("*", (_req, res) => {
