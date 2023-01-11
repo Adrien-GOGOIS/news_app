@@ -4,6 +4,8 @@ const router = express.Router();
 
 const axios = require('axios').default;
 
+const sortByDate = require('../utils/dataSorting')
+
 router.get('/', async(req, res) => {
     res.send("<h1>All</h1>");
 })
@@ -24,7 +26,7 @@ router.get('/:news', async(req, res) => {
         })
     .then(function (response) {
         res.json({
-            data: response.data.articles
+            data: sortByDate(response.data.articles)
         })
     });
 })

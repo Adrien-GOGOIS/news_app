@@ -35,31 +35,35 @@ function Homepage() {
 
     return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <input defaultValue="bitcoin" {...register("topic")} />
-                    {errors.topic && <span>This field is required</span>}
-                <select {...register("language")}>
-                    <option value="fr">français</option>
-                    <option value="en">anglais</option>
-                </select>
-                <input type="submit" />
-            </form>
-            <div className="grid gap-4 grid-cols-4 grid-rows-3">
-                {news && news.map(element => {
-                    return (
-                        <NewsCard 
-                            author={element.source.name} 
-                            link={element.url} 
-                            title={element.title} 
-                            content={element.content} 
-                            src={element.urlToImage} 
-                            description={element.description} 
-                            date={element.publishedAt}
-                        />
-                    )
-                })}
-            </div>
+            <div className="flex flex-col items-center">
+                <div className="my-5">
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <input className="rounded border-4 border-indigo-500 mx-3 p-3" defaultValue="bitcoin" {...register("topic")} />
+                            {errors.topic && <span>This field is required</span>}
+                        <select className="bg-indigo-200 rounded mx-3 h-100 p-4" {...register("language")}>
+                            <option value="fr">français</option>
+                            <option value="en">anglais</option>
+                        </select>
+                        <input className=" rounded mx-3 bg-indigo-500 p-3" type="submit" />
+                    </form>
+                </div>
            
+                <div className="grid gap-4 grid-cols-4 grid-rows-3">
+                    {news && news.map(element => {
+                        return (
+                            <NewsCard 
+                                author={element.source.name} 
+                                link={element.url} 
+                                title={element.title} 
+                                content={element.content} 
+                                src={element.urlToImage} 
+                                description={element.description} 
+                                date={element.publishedAt.split("T")[0]}
+                            />
+                        )
+                    })}
+                </div>     
+            </div>     
         </>
     )
 }
