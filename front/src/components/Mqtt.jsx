@@ -11,39 +11,46 @@ const options = {
 const client  = mqtt.connect('mqtt://test.mosquitto.org:8081', options);
 
 // MQTT topic :
-client.subscribe('presence');
-
-// Terminal : npx mqtt pub -t 'news_app' -h 'test.mosquitto.org' -m 'it works!'
+client.subscribe('news_app');
 
 function Mqtt() {
 
-    const [message, setMessage] = useState("Open a terminal : npx mqtt pub -t 'news_app' -h 'test.mosquitto.org' -m 'it works!'");
+    const [connectionStatus, setConnectionStatus] = useState(false);
+    const [messages, setMessages] = useState(["Open a terminal : npx mqtt pub -t 'news_app' -h 'test.mosquitto.org' -m 'it works!'"]);
+    const [userInput, setUserInput] = useState();
 
-    const handleClick = () => {
-        client.on('message', function (topic, message) {
-            console.log(topic)
-            setMessage(message.toString());
-        });
+    useEffect(() => {
+    client.on('connect', () => setConnectionStatus(true));
+    client.on('message', (topic, payload, packet) => {
+        setMessages(messages.concat(payload.toString()));
+    });
+    })
+
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        client.publish('news_app', `${userInput}`)
     }
 
-    const changeMessage = () => {
-        client.publish("presence", "New message")
-        console.log("Message changed")
-    }
-
-    const disconnect = () => {
-        client.end();
-        console.log("Connexion ended")
+    const handleChange = (event) => {
+        setUserInput(event.target.value)
     }
 
     return (
+    <>
+        <form>
+            <input type='text' placeholder='ajouter un message' onChange={handleChange}/>
+            <button onClick={handleSubmit}>Load</button>
+        </form>
+        
+        {connectionStatus ? <p>Connecté !</p> : <p>Déconnecté</p>}
+        <div></div>
         <div className="App">
-            <button onClick={handleClick}>Connexion</button>
-            <button onClick={changeMessage}>Change message</button>
-            <button onClick={disconnect}>Disconnect</button>
-            <p>Message reçu: <span className='text-white'>{message}</span></p>
-            <p>{}</p>
+            {messages.map((message) => (
+                <h2 key={message} className='text-white'>{message}</h2>
+            ))}
         </div>
+    </>
+
     );
 }
 

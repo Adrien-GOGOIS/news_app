@@ -12,9 +12,9 @@ const axios = require('axios').default;
 router.get('/', async(req, res) => {
     client.on('connect', function () {
         client.subscribe('presence', function (err) {
-            console.log("OK")
             if (!err) {
                 client.publish('Hello mqtt')
+                console.log("Message published")
             }
         })
     })
