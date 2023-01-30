@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 // Views
 import NewsList from "./components/NewsList";
 import Homepage from "./components/Homepage";
+import Mqtt from './components/Mqtt';
 
 function App() {
   return (
@@ -23,6 +24,11 @@ function App() {
                 path="/home"
                 element={<NewsList />}
               />
+              <Route
+                path='/mqtt'
+                element={<Mqtt/>}
+              >
+              </Route>
             </Routes>
           </div>
           <div className="bg-gray-800">

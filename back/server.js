@@ -25,9 +25,11 @@ app.get("/", (req, res) => {
 
 const everything = require('./routes/everything.js');
 const top = require('./routes/top.js');
+const mqtt_feed = require('./routes/mqtt.js');
 
 app.use("/everything", everything);
 app.use("/top", top)
+app.use("/feed", mqtt_feed)
 
 // Routes inexistantes
 app.get("*", (_req, res) => {

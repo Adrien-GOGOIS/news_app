@@ -26,11 +26,7 @@ function NewsList() {
     }
 
     useEffect(() => {
-        fetch("http://localhost:8000/top")
-        .then((res) => res.json())
-        .then((res) => {
-            setNews(res.data);
-        });
+        getTopArticles()
     }, []);
 
     useEffect(() => {
